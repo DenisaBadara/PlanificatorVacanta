@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <title>Confirmare Stergere</title>
+  <link rel="stylesheet" th:href="@{/css/confirmare_stergere_vacanta.css}" />
+</head>
+<body>
+<div class="container">
+  <h2>Sunteți sigur(a) că doriti sa stergeti aceasta vacanta?</h2>
+  <form th:action="@{/deleteVacance/{id}(id=${vacantaId})}" method="post">
+    <button type="submit" class="btn btn-danger">Confirma Stergerea</button>
+    <a th:href="@{/welcome}" class="btn btn-secondary">Nu</a>
+  </form>
+</div>
+</body>
+</html>

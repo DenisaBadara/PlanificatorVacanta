@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <title>Confirmare Stergere</title>
+  <link rel="stylesheet" th:href="@{/css/confirmare_stergere_activitate.css}">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Confirmare Stergere</h1>
+  <p>Sunteți sigur ca doriti sa stergeti aceasta activitate?</p>
+
+  <form th:action="@{/vacanta/{vacantaId}/activitati/delete/{activitateId}(vacantaId=${vacantaId}, activitateId=${activitateId})}" method="post">
+     <button type="submit" class="btn btn-danger">Confirma Stergerea</button>
+     <a th:href="@{/vacanta/{vacantaId}/activitati(vacantaId=${vacantaId})}" class="btn btn-secondary">Anuleaza</a>
+  </form>
+
+</div>
+</body>
+</html>

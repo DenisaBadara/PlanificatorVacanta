@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editare Vacanta</title>
+    <link rel="stylesheet" th:href="@{/css/update_vacanta.css}" />
+</head>
+<body>
+<div class="container">
+  <h1>Vacanta</h1>
+  <hr>
+  <h2>Editeaza vacanta</h2>
+    <form th:action="@{/salveazaVacanta}" th:object="${vacanta}" method="POST">
+        <input type="hidden" th:field="*{id}" />
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error"></p>
+        </div>
+
+        <div>
+            <label>
+                <input type="text" th:field="*{numeTara}" placeholder="Numele tarii"
+                       th:classappend="${#fields.hasErrors('numeTara')} ? 'error-input' : ''">
+            </label>
+            <p th:if="${#fields.hasErrors('numeTara')}" th:errors="*{numeTara}" class="error"></p>
+        </div>
+        <div>
+            <label>
+                <input class="date-input" type="date" th:field="*{dataInceput}" placeholder="Data de inceput a vacantei"
+                       th:classappend="${#fields.hasErrors('dataInceput')} ? 'error-input' : ''">
+            </label>
+            <p th:if="${#fields.hasErrors('dataInceput')}" th:errors="*{dataInceput}" class="error"></p>
+        </div>
+        <div>
+            <label>
+                <input class="date-input" type="date" th:field="*{dataSfarsit}" placeholder="Data de final a vacantei"
+                       th:classappend="${#fields.hasErrors('dataSfarsit')} ? 'error-input' : ''">
+            </label>
+            <p th:if="${#fields.hasErrors('dataSfarsit')}" th:errors="*{dataSfarsit}" class="error"></p>
+        </div>
+        <div>
+            <label>
+                <input type="number" th:field="*{bugetTotal}" placeholder="Bugetul total al vacantei"
+                       th:classappend="${#fields.hasErrors('bugetTotal')} ? 'error-input' : ''">
+            </label>
+            <p th:if="${#fields.hasErrors('bugetTotal')}" th:errors="*{bugetTotal}" class="error"></p>
+        </div>
+        <button type="submit" class="btn btn-info">Editeaza Vacanta</button>
+    </form>
+</div>
+</body>
+</html>

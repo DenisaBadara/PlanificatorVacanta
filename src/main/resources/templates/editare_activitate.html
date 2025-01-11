@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <title>Editare Activitate</title>
+  <link rel="stylesheet" th:href="@{/css/editare_activitate.css}">
+</head>
+<body>
+<div class="container">
+  <h1>Editare Activitate</h1>
+  <form th:action="@{/activitate/update}" th:object="${activitate}" method="post">
+    <input type="hidden" th:field="*{activitateID}">
+    <input type="hidden" th:field="*{vacanta.id}">
+
+    <div class="form-group">
+      <label for="nume">Nume Activitate:</label>
+      <input type="text" id="nume" th:field="*{nume}" class="form-control" required>
+      <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="error"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="stare">Stare:</label>
+      <select id="stare" th:field="*{stare}" class="form-control">
+        <option value="Planificata">Planificata</option>
+        <option value="In desfășurare">In desfasurare</option>
+        <option value="Finalizata">Finalizata</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="cost">Cost:</label>
+      <input type="number" id="cost" th:field="*{cost}" class="form-control" step="0.01" required>
+      <p th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" class="error"></p>
+    </div>
+
+    <div class="form-group">
+      <label for="descriere">Descriere:</label>
+      <textarea id="descriere" th:field="*{descriere}" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn">Salveaza Modificarile</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title th:text="'Activitati pentru ' + ${vacanta.numeTara}">Activitati</title>
+  <link rel="stylesheet" th:href="@{/css/activitati.css}">
+</head>
+<body>
+<div class="container">
+  <h1 th:text="'Activitati pentru ' + ${vacanta.numeTara}">Activitati pentru tara</h1>
+  <p th:text="'Perioada: ' + ${vacanta.dataInceput} + ' - ' + ${vacanta.dataSfarsit}">Perioada vacantei</p>
+
+  <p>Buget total: <strong th:text="${vacanta.bugetTotal}">0</strong></p>
+  <p>Cost total activități: <strong th:text="${totalActivityCost}">0</strong></p>
+
+  <div th:if="${budgetExceeded}" class="alert alert-danger">
+    Atentie: Costul activitatilor depaseste bugetul vacantei!
+  </div>
+  <div th:unless="${budgetExceeded}" class="alert alert-success">
+    Costul activitatilor este in limita bugetului.
+  </div>
+
+  <h2>Lista de Activitati</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Nume Activitate</th>
+      <th>Stare</th>
+      <th>Cost</th>
+      <th>Descriere</th>
+      <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="activitate : ${activitati}">
+      <td th:text="${activitate.nume}"></td>
+      <td th:text="${activitate.stare}"></td>
+      <td th:text="${activitate.cost}"></td>
+      <td th:text="${activitate.descriere}"></td>
+      <td>
+        <div class="action-buttons">
+          <a th:href="@{/activitate/edit/{id}(id=${activitate.activitateID})}" class="btn btn-primary">Editeaza</a>
+          <a th:href="@{/activitate/confirmareStergereActivitate/{activitateId}(activitateId=${activitate.activitateID})}" class="btn btn-danger btn-sm">Șterge</a>
+        </div>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(activitati)}">
+      <td colspan="5">Nu exista activitati pentru aceasta vacana.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+  </div>
+  <div th:if="${success}" class="alert alert-success">
+    <p th:text="${success}"></p>
+  </div>
+
+
+  <form th:action="@{'/vacanta/' + ${vacanta.id} + '/activitati'}" method="get">
+    <input type="hidden" name="showForm" value="true" />
+    <button type="submit" class="btn btn-primary">Adauga Activitate</button>
+  </form>
+
+
+  <div id="formularAdaugare" th:if="${showForm}" style="margin-top: 20px;">
+    <h2>Adauga o activitate noua</h2>
+    <form th:action="@{'/vacanta/' + ${vacanta.id} + '/activitati/adauga'}" th:object="${activitate}" method="post">
+      <div>
+        <label for="nume">Nume Activitate:</label>
+        <input type="text" id="nume" th:field="*{nume}" class="form-control" placeholder="Numele activitatii" />
+        <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="error"></p>
+      </div>
+
+      <div>
+        <label for="stare">Stare:</label>
+        <select id="stare" th:field="*{stare}" class="form-control">
+          <option value="Planificata">Planificata</option>
+          <option value="In desfasurare">In desfasurare</option>
+          <option value="Finalizata">Finalizata</option>
+        </select>
+        <p th:if="${#fields.hasErrors('stare')}" th:errors="*{stare}" class="error"></p>
+      </div>
+
+      <div>
+        <label for="cost">Cost:</label>
+        <input type="number" id="cost" th:field="*{cost}" class="form-control" step="0.01" placeholder="Costul activitatii" />
+        <p th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" class="error"></p>
+      </div>
+
+      <div>
+        <label for="descriere">Descriere:</label>
+        <textarea id="descriere" th:field="*{descriere}" class="form-control" placeholder="Descrierea activitatii"></textarea>
+        <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="error"></p>
+      </div>
+
+      <button type="submit" class="btn btn-success">Salvează Activitatea</button>
+      <a th:href="@{/vacanta/{id}/activitati(id=${vacanta.id})}" class="btn btn-danger">Anuleaza</a>
+    </form>
+  </div>
+
+  <a th:href="@{/welcome}" class="btn btn-info" style="margin-top: 20px;">Inapoi la lista de Vacante</a>
+</div>
+</body>
